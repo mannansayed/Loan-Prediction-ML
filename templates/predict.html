@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Loan Prediction</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+color:white;
+
+background:
+linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.75)),
+url("https://static.wixstatic.com/media/f9980f_f1b8a9f598a64313a276bfbfb6984569~mv2.png/v1/fit/w_1000%2Ch_720%2Cal_c/file.png");
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
+}
+
+/* NAVBAR */
+
+nav{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 60px;
+background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+z-index:1000;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:35px;
+margin:0;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+font-size:16px;
+transition:0.3s;
+}
+
+nav ul li a:hover{
+color:#00e676;
+}
+
+/* CONTAINER */
+
+.container{
+margin-top:120px;
+display:flex;
+justify-content:center;
+}
+
+/* FORM CARD */
+
+.form-box{
+background:rgba(0,0,0,0.85);
+padding:50px;
+border-radius:12px;
+width:800px;
+box-shadow:0 15px 40px rgba(0,0,0,0.6);
+}
+
+/* ROWS */
+
+.row{
+display:flex;
+gap:30px;
+margin-top:18px;
+}
+
+.field{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+label{
+margin-bottom:6px;
+font-size:14px;
+font-weight:500;
+}
+
+input,select{
+width:100%;
+padding:12px;
+border:none;
+border-radius:6px;
+font-size:14px;
+transition:0.3s;
+}
+
+input:focus,select:focus{
+outline:none;
+box-shadow:0 0 6px #00e676;
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:15px;
+margin-top:25px;
+border:none;
+border-radius:30px;
+background:linear-gradient(90deg,#00c853,#00e676);
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+box-shadow:0 10px 20px rgba(0,255,100,0.4);
+}
+
+/* RESULT */
+
+.result-box{
+margin-top:25px;
+padding:20px;
+border-radius:10px;
+text-align:center;
+background:rgba(0,0,0,0.9);
+font-size:22px;
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+animation:fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(10px);}
+to{opacity:1;}
+}
+
+/* DASHBOARD */
+
+.dashboard{
+margin:70px auto;
+width:1000px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+}
+
+.card{
+background:rgba(0,0,0,0.85);
+padding:30px;
+border-radius:12px;
+box-shadow:0 15px 40px rgba(0,0,0,0.6);
+}
+
+/* FEATURE IMPORTANCE */
+
+.importance-section{
+width:1000px;
+margin:50px auto;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+}
+
+.importance-card{
+background:rgba(0,0,0,0.85);
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.6);
+}
+
+.importance-card h3{
+margin-bottom:10px;
+color:#00e676;
+}
+
+.importance-card ul{
+padding-left:18px;
+}
+
+.importance-card ul li{
+margin-bottom:8px;
+opacity:0.9;
+}
+
+/* FOOTER */
+
+footer{
+margin-top:80px;
+background:#0f2027;
+padding:40px 120px;
+}
+
+.footer-container{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+}
+
+.footer-left h3{
+margin-bottom:10px;
+}
+
+.footer-left p{
+opacity:0.7;
+}
+
+.footer-right{
+text-align:right;
+opacity:0.7;
+}
+
+/* FADE EFFECT */
+
+.fade{
+opacity:0;
+transform:translateY(40px);
+transition:all 0.8s ease;
+}
+
+.fade.show{
+opacity:1;
+transform:translateY(0);
+}
+
+</style>
+
+</head>
+
+<body>
+
+{% for m in get_flashed_messages() %}
+<script>alert("{{m}}")</script>
+{% endfor %}
+
+<nav>
+<div class="logo">LoanPredict AI</div>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/#about">About</a></li>
+</ul>
+</nav>
+
+<div class="container">
+
+<div class="form-box fade">
+
+<h2>Loan Prediction</h2>
+
+<form action="/predict" method="POST">
+
+<div class="row">
+<div class="field">
+<label>Gender</label>
+<select name="Gender" required>
+<option value=""></option>
+<option>Male</option>
+<option>Female</option>
+</select>
+</div>
+
+<div class="field">
+<label>Married</label>
+<select name="Married" required>
+<option value=""></option>
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+</div>
+
+<div class="row">
+<div class="field">
+<label>Dependents</label>
+<input type="number" name="Dependents" required>
+</div>
+
+<div class="field">
+<label>Education</label>
+<select name="Education" required>
+<option value=""></option>
+<option>Graduate</option>
+<option>Not Graduate</option>
+</select>
+</div>
+</div>
+
+<div class="row">
+<div class="field">
+<label>Employment Status</label>
+<select name="Employment_Status" required>
+<option value=""></option>
+<option>Salaried</option>
+<option>Self-Employed</option>
+<option>Unemployed</option>
+</select>
+</div>
+
+<div class="field">
+<label>Age</label>
+<input type="number" name="Age" required>
+</div>
+</div>
+
+<div class="row">
+<div class="field">
+<label>Applicant Income</label>
+<input type="number" name="Applicant_Income" required>
+</div>
+
+<div class="field">
+<label>Coapplicant Income</label>
+<input type="number" name="Coapplicant_Income" required>
+</div>
+</div>
+
+<div class="row">
+<div class="field">
+<label>Loan Amount</label>
+<input type="number" name="Loan_Amount" required>
+</div>
+
+<div class="field">
+<label>Loan Term</label>
+<input type="number" name="Loan_Term" required>
+</div>
+</div>
+
+<div class="row">
+<div class="field">
+<label>Credit History</label>
+<select name="Credit_History" required>
+<option value=""></option>
+<option value="1">1->Good</option>
+<option value="0">0->Bad</option>
+</select>
+</div>
+
+<div class="field">
+<label>Property Area</label>
+<select name="Property_Area" required>
+<option value=""></option>
+<option>Urban</option>
+<option>Semiurban</option>
+<option>Rural</option>
+</select>
+</div>
+</div>
+
+<button type="submit">Predict Loan</button>
+
+</form>
+
+{% if prediction_text %}
+<div class="result-box">
+{{ prediction_text }}
+</div>
+{% endif %}
+
+</div>
+</div>
+
+<!-- FEATURE IMPORTANCE -->
+
+<div class="importance-section fade">
+
+<div class="importance-card">
+<h3>💳 Credit History</h3>
+<ul>
+<li>Most important factor</li>
+<li>Good credit → high approval</li>
+<li>Bad credit → rejection chances high</li>
+<li>Indicates repayment ability</li>
+</ul>
+</div>
+
+<div class="importance-card">
+<h3>💰 Income</h3>
+<ul>
+<li>Higher income → better approval</li>
+<li>Co-applicant income helps</li>
+<li>Stable income increases trust</li>
+<li>Low income → risk</li>
+</ul>
+</div>
+
+<div class="importance-card">
+<h3>🏦 Loan Amount</h3>
+<ul>
+<li>Higher loan → more risk</li>
+<li>Needs strong income support</li>
+<li>Small loans easier to approve</li>
+<li>Mismatch reduces chances</li>
+</ul>
+</div>
+
+<div class="importance-card">
+<h3>👨‍👩‍👧 Dependents & Loan Term</h3>
+<ul>
+<li>More dependents → financial burden</li>
+<li>Fewer dependents → better approval</li>
+<li>Long term → lower EMI</li>
+<li>Short term → higher EMI risk</li>
+</ul>
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div class="dashboard fade">
+
+<div class="card">
+<h3>Model Accuracy</h3>
+<canvas id="modelChart"></canvas>
+</div>
+
+<div class="card">
+<h3>Feature Importance</h3>
+<canvas id="featureChart"></canvas>
+</div>
+
+</div>
+
+<footer>
+
+<div class="footer-container">
+
+<div class="footer-left">
+<h3>LoanPredict AI</h3>
+<p>AI powered loan approval prediction system using Machine Learning.</p>
+</div>
+
+<div class="footer-right">
+<p>© 2026 LoanPredict AI</p>
+<p>Developed for Academic ML Project</p>
+</div>
+
+</div>
+
+</footer>
+
+<script>
+
+new Chart(document.getElementById("modelChart"),{
+type:"bar",
+data:{
+labels:["Logistic Regression","Decision Tree","Random Forest","Gradient Boost"],
+datasets:[{
+data:[98,96,97,97],
+backgroundColor:["#00e676","#42a5f5","#ffb300","#ab47bc"]
+}]
+},
+options:{plugins:{legend:{display:false}},scales:{y:{max:100}}}
+});
+
+new Chart(document.getElementById("featureChart"),{
+type:"doughnut",
+data:{
+labels:["Credit History","Income","Loan Amount","Age","Dependents"],
+datasets:[{
+data:[35,25,20,10,10],
+backgroundColor:["#00e676","#42a5f5","#ffb300","#ff5252","#ab47bc"]
+}]
+}
+});
+
+/* FADE SCRIPT */
+
+const faders = document.querySelectorAll('.fade');
+
+const observer = new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add('show');
+}
+});
+},{threshold:0.2});
+
+faders.forEach(el=>observer.observe(el));
+
+</script>
+
+</body>
+</html>

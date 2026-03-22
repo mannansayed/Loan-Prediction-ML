@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:url("https://static.wixstatic.com/media/f9980f_f1b8a9f598a64313a276bfbfb6984569~mv2.png/v1/fit/w_1000%2Ch_720%2Cal_c/file.png");
+background-size:cover;
+color:white;
+}
+
+/* NAVBAR */
+
+nav{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 60px;
+background:linear-gradient(90deg,#0f2027,#203a43,#2c5364);
+box-sizing:border-box;
+z-index:1000;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+margin:0;
+padding:0;
+}
+
+nav ul li{
+margin-left:35px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:16px;
+font-weight:500;
+}
+
+nav a:hover{
+color:#00e676;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+}
+
+/* FORM */
+
+.container{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.form-box{
+background:rgba(0,0,0,0.8);
+padding:50px;
+border-radius:10px;
+width:420px;
+}
+
+label{
+display:block;
+margin-top:15px;
+font-size:14px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:5px;
+border-radius:6px;
+border:none;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:20px;
+border:none;
+border-radius:25px;
+background:#00c853;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#009624;
+}
+
+.link{
+text-align:center;
+margin-top:15px;
+}
+
+.link a{
+color:#00e676;
+}
+
+</style>
+</head>
+
+<body>
+
+{% for m in get_flashed_messages() %}
+<script>alert("{{m}}")</script>
+{% endfor %}
+
+<nav>
+<div class="logo">LoanPredict</div>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/#about">About</a></li>
+</ul>
+</nav>
+
+<div class="container">
+
+<div class="form-box">
+
+<h2>Login</h2>
+
+<form action="/login" method="POST">
+
+<label>Email Address</label>
+<input type="email" name="email" required>
+
+<label>Password</label>
+<input type="password" name="password" required>
+
+<button type="submit">Login</button>
+
+</form>
+
+<div class="link">
+Don't have an account? <a href="/register">Register</a>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
